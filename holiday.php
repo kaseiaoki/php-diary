@@ -1,6 +1,6 @@
 <?php
 require 'http_get.php';
-$today = date('Y-m-d');
+$today = date( 'Y-m-d' );
 $is_holiday = is_Holidays( $today ) ? "yes" : "no";
 
 print_r( $is_holiday );
@@ -26,7 +26,7 @@ function is_Holidays( $day ) {
   foreach ( $lines as $line ) {
     $columns = explode( ",", $line );
     $holiday = trim( $columns[0] );
-    if($holiday == $day ) {
+    if( $holiday == $day ) {
         return true;
     }
   }
