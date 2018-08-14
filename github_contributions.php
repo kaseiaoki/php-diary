@@ -4,7 +4,7 @@ echo "username:";
 $username = trim( fgets( STDIN ) );  
 try{
     $data = http_get( "https://github.com/users/".$username."/contributions" );
-    if( parse_contributions( $data ) == "1" ) {
+    if( parse_contributions( $data ) == "0" ) {
         echo ":eyes:";
     }else {
         echo ":thumbsup:";
@@ -18,9 +18,9 @@ function parse_contributions( $data ) {
     $html_lines = str_replace( array( "\r\n","\r","\n" ), "\n", $data );
     $lines = explode( "\n", $html_lines );
     foreach ( $lines as $line ) {
-       if( preg_match( "/.$today./" ,$line ) ){   
-        return first_string_between( $line, 'data-count="', '"' );
-       }
+        if (preg_match("/data-count=\"([0-9]+)\" data-date=\"$today\"/", $line, $matches)) {
+            return $matches[1];
+        }
     }
 }
 
