@@ -4,7 +4,7 @@ echo "username:";
 $username = trim( fgets( STDIN ) );  
 try{
     $data = http_get( "https://github.com/users/".$username."/contributions" );
-    if( parse_contributions( $data ) < 1 ) {
+    if( parse_contributions( $data ) == "1" ) {
         echo ":eyes:";
     }else {
         echo ":thumbsup:";
