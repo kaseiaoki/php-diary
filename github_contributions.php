@@ -4,13 +4,10 @@ echo "username:";
 $username = trim( fgets( STDIN ) );  
 try{
     $data = http_get( "https://github.com/users/".$username."/contributions" );
-    switch ( parse_contributions( $data ) ) {
-        case 0:
-            echo ":eyes:";
-            break;
-        case 1:
-            echo "::thumbsup:";
-            break;
+    if( parse_contributions( $data ) < 1 ) {
+        echo ":eyes:";
+    }else {
+        echo ":thumbsup:";
     }
 }catch ( Exception $e ) {
     echo $e->getMessage();
@@ -27,12 +24,12 @@ function parse_contributions( $data ) {
     }
 }
 
-function first_string_between( $haystack, $start, $end ){
-    $char = strpos( $haystack, $start );
+function first_string_between( $str, $start, $end ){
+    $char = strpos( $str, $start );
     if ( $char === false ) {
         return '';
     }
     $char += strlen( $start );
-    $len = strpos( $haystack, $end, $char ) - $char;
-    return substr( $haystack, $char, $len );
+    $len = strpos( $str, $end, $char ) - $char;
+    return substr( $str, $char, $len );
 }
