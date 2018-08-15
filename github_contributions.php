@@ -33,3 +33,4 @@ function first_string_between( $str, $start, $end ){
     $len = strpos( $str, $end, $char ) - $char;
     return substr( $str, $char, $len );
 }
+

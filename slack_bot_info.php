@@ -1,14 +1,5 @@
 <?php
 class SlackBotInfo{
-    public $channel = '#panopticon';
-
-    public $username = 'Bentham';
-  
-    public $icon_emoji = ':eyes:';
- 
-    protected $message = '';
-
-    protected $url = '';
 
     public function __construct( $url = '', $message = '' )
     {
