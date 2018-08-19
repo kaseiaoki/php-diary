@@ -30,8 +30,8 @@ class lyrics extends DOMDocument{
         }
     }
 
-    public $head_coment = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->';
-    public $footer_coment = '<!-- MxM banner -->';
+    const head_coment = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->';
+    const footer_coment = '<!-- MxM banner -->';
 
     /**
      * parse_lyrics_html
@@ -43,18 +43,11 @@ class lyrics extends DOMDocument{
 
     function parse_lyrics_html( string $html_content ){
         $html_lines = str_replace( array( "\r\n","\r","\n" ), "\n", $html_content );
-        $lines = explode( "\n", $html_lines );
-        $lyrics_array = array();
-        $lyrics_get_flag = false;
-        foreach ( $lines as $line ) {
-            if ( strpos( $line, $this->head_coment ) !== false )  $lyrics_get_flag = true;
-            if ( strpos( $line,$this->footer_coment )!== false )  $lyrics_get_flag = false;
-            if( $lyrics_get_flag ) $lyrics_array[] = strip_tags( $line );
-        }
-        foreach ( $lyrics_array AS $k => $v ) {
-            if ( empty($v) ) {
-            unset( $lyrics_array[$k] );
-            }
+        $lyrics_lines = firstStringBetween( $html_lines, self::head_coment, self::footer_coment );
+        $lyrics_lines_arrays = explode( "\n", $lyrics_lines );
+        foreach ( $lyrics_lines_arrays as $line ) {
+           $lyrics_array[] = strip_tags( $line );
+           if ( empty($v) ) unset( $lyrics_lines_arrays );
         }
         return $lyrics_array;
     }
@@ -70,14 +63,15 @@ class lyrics extends DOMDocument{
     }
 }
 
-// ctype_alnum  英数字判定
-// ctype_alpha  英字判定
-// ctype_cntrl  制御文字判定
-// ctype_digit  数字判定
-// ctype_graph  空白以外の印字可能文字判定
-// ctype_lower  小文字判定
-// ctype_print  印字可能文字判定　*空白含む
-// ctype_punct  空白及び英数字以外文字判定　*ざっくりいうと記号判定
-// ctype_space  空白文字判定　*空白文字なので空白以外にもタブとか改行とかも含まれる
-// ctype_upper  大文字判定
-// ctype_xdigit 16進数判定
+function firstStringBetween( $haystack, $start, $end ){
+    $char = strpos( $haystack, $start );
+    if ( $char === false ) {
+        return '';
+    }
+
+    $char += strlen( $start );
+    $len = strpos( $haystack, $end, $char ) - $char;
+
+    return substr( $haystack, $char, $len );
+}
+
