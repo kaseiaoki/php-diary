@@ -30,8 +30,8 @@ class lyrics extends DOMDocument{
         }
     }
 
-    const head_coment = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->';
-    const footer_coment = '<!-- MxM banner -->';
+    const head_comment = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->';
+    const footer_comment = '<!-- MxM banner -->';
 
     /**
      * parse_lyrics_html
@@ -43,7 +43,7 @@ class lyrics extends DOMDocument{
 
     function parse_lyrics_html( string $html_content ){
         $html_lines = str_replace( array( "\r\n","\r","\n" ), "\n", $html_content );
-        $lyrics_lines = firstStringBetween( $html_lines, self::head_coment, self::footer_coment );
+        $lyrics_lines = firstStringBetween( $html_lines, self::head_comment, self::footer_comment );
         $lyrics_lines_arrays = explode( "\n", $lyrics_lines );
         foreach ( $lyrics_lines_arrays as $line ) {
            $lyrics_array[] = strip_tags( $line );
