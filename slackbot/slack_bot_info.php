@@ -1,7 +1,7 @@
 <?php
 class SlackBotInfo{
     public $channel = '#panopticon';
-    public $username = 'Bentham';
+    public $username = 'Michelle';
   
     public $icon_emoji = ':eyes:';
  

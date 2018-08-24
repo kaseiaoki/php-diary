@@ -3,8 +3,8 @@
 class github_contributions{
     public function get_github_contributions( $username ) {
         try{
-            $data = http_get( "https://github.com/users/".$username."/contributions" );
-            if( parse_contributions( $data ) == "0" ) {
+            $data = $this->http_get( "https://github.com/users/".$username."/contributions" );
+            if( $this->parse_contributions( $data ) == "0" ) {
                 return ":eyes:";
             }else {
                 return ":thumbsup:";
@@ -20,11 +20,12 @@ class github_contributions{
         $lines = explode( "\n", $html_lines );
         $date_data = array();
         foreach ( $lines as $line ) {
-            if( preg_match("/data-date=\"(.*)\"/", $line, $matches ) ){
-                $date = $matches[1] ;
-                if( preg_match("/data-count=\"([0-9]+)\"/", $line, $matches ) ) {
-                    $data = intval( $matches[1] );
-                    $date_data += array( $date => $data );
+            $today = date( 'Y-m-d' );
+            $html_lines = str_replace( array( "\r\n","\r","\n" ), "\n", $data );
+            $lines = explode( "\n", $html_lines );
+            foreach ( $lines as $line ) {
+                if (preg_match("/data-count=\"([0-9]+)\" data-date=\"$today\"/", $line, $matches)) {
+                    return $matches[1];
                 }
             }
         }
@@ -36,5 +37,22 @@ class github_contributions{
         $username = trim( fgets( STDIN ) );  
         $array_contributions = $this->get_github_contributions( $username );
         var_dump( $array_contributions );
+    }
+    function http_get( $url ){
+        $option = [
+            CURLOPT_RETURNTRANSFER => true, 
+        ];
+    
+        $curl = curl_init( $url );
+        curl_setopt_array( $curl, $option );
+    
+        $data = curl_exec($curl);
+        $info = curl_getinfo($curl);
+    
+        if ( $info['http_code'] !== 200 ) {
+            return false;
+        } else {
+            return $data;
+        }
     }
 }

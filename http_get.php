@@ -7,8 +7,7 @@
  * @return 
  * @see holiday.php ..etc
  */
-function http_get($url)
-{
+function http_get($url){
     $option = [
         CURLOPT_RETURNTRANSFER => true, 
     ];
