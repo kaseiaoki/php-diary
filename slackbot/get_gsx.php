@@ -1,7 +1,6 @@
 <?php
 
 $gsx = new gsx();
-$gsx->get_json();
 class gsx
 {
     const data = "https://spreadsheets.google.com/feeds/list/1FNTb9V41nReF1_6Ejp4y9k6-NFcQG0BKF08wHo2Yn7s/od6/public/values?alt=json";
@@ -11,6 +10,16 @@ class gsx
         $json = $json_decode;
         $records  = $json->feed->entry;
         return $records;
+    }
+    function get_column( $records ){
+        $columns = array();
+        $columns_name = [ 'id','name','time','dateby'];
+        foreach ( $records as $record) {
+            foreach ($columns_name as $name) {
+                $columns[$name] = $record->{"gsx$" . $name}->{'$t'};
+            }
+        }
+        return $columns;
     }
 }
 
@@ -29,7 +38,7 @@ class gsx
 //["$t"]=>
 //  string(5) "20:00"
 //}
-//["gsx$databy"]=>
+//["gsx$date_by"]=>
 //array(1) {
 //["$t"]=>
 //  string(1) "2"
