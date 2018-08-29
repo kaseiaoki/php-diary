@@ -6,6 +6,7 @@
  * Time: 23:05
  */
 
+
 class get_contribution{
     function parse_contributions( $username ) {
         try{
