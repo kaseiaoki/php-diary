@@ -21,7 +21,8 @@ $week = date("w" );
 
 $github_contributions = new github_contributions();
 if( $date  == $target_hour ){
-    $message = $github_contributions->get_github_contributions( $record['name'] );
+    $contributions = $github_contributions->get_github_contributions( $record['name'] );
+    $message = $contributions + "->"+$parsed_date["name"];
     $bot = new SlackBot();
     print_r( $bot->post_message( new SlackBotInfo( $url, $message ) ) );
 }
