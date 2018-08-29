@@ -18,7 +18,7 @@ function parse_contributions( $data ) {
     $html_lines = str_replace( array( "\r\n","\r","\n" ), "\n", $data );
     $lines = explode( "\n", $html_lines );
     foreach ( $lines as $line ) {
-        if (preg_match("/data-count=\"([0-9]+)\" data-date=\"$today\"/", $line, $matches)) {
+        if ( preg_match("/data-count=\"([0-9]+)\" data-date=\"$today\"/", $line, $matches) ) {
             return $matches[1];
         }
     }
