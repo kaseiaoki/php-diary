@@ -1,7 +1,7 @@
 <?php
 
 $cron_formatter = new cron_formatter();
-$cron_formatter->cron_format("20:00");
+$cron_formatter->cron_format();
 class cron_formatter
 {
     function cron_format( $time, $name, $date ){
